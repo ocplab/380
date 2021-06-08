@@ -54,7 +54,7 @@ oc get route
 oc get po
 oc status
 
-oc status -n hello-master-1
+oc status -n hello-main-1
 
 
 
