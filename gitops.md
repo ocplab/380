@@ -38,7 +38,12 @@ oc get pod -n openshift-authentication
 
 oc login -u kustom -p redhat123
 
+
 oc extract secret/htpasswd-secret -n openshift-config --confirm --to /tmp/
+
+htpasswd -D /tmp/htpasswd kustom
+
+oc set data secret/htpasswd-secret -n openshift-config --from-file htpasswd=/tmp/htpasswd
 
 oc get oauth cluster -o yaml > /tmp/oauth-config.yaml
 
