@@ -11,9 +11,9 @@ resources:
 - oauth.yaml
 secretGenerator:
 - name: htpasswd-secret
- namespace: openshift-config
- files:
- - htpasswd=htpasswd-secret-data
+  namespace: openshift-config
+  files:
+  - htpasswd=htpasswd-secret-data
 generatorOptions:
  disableNameSuffixHash: true
  
