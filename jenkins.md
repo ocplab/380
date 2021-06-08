@@ -49,6 +49,16 @@ oc logs jenkins-1-xvwwr | grep 'up and running'
 oc get route
 
 
+
+
+oc get po
+oc status
+
+oc status -n hello-master-1
+
+
+
+
 ```
 
 
