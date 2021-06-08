@@ -40,7 +40,7 @@ oc adm policy add-cluster-role-to-user self-provisioner -z jenkins -n gitops-dep
 
 oc login -u developer -p developer
 
- oc project gitops-deploy
+oc project gitops-deploy
 
 
 ```
