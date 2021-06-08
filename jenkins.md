@@ -57,6 +57,19 @@ oc status
 oc status -n hello-main-1
 
 
+```
+
+
+
+```
+ vi /home/student/developer-token.txt
+ 
+ cd /home/student/DO380/labs/gitops-deploy/sh
+ cat monitor-build.sh
+ 
+ vi monitor-build.sh
+ 
+ /home/student/DO380/labs/gitops-deploy/sh/monitor-build.sh
 
 
 ```
