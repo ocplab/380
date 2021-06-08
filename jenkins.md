@@ -42,6 +42,12 @@ oc login -u developer -p developer
 
 oc project gitops-deploy
 
+oc get po
+
+oc logs jenkins-1-xvwwr | grep 'up and running'
+
+oc get route
+
 
 ```
 
