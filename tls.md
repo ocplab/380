@@ -167,5 +167,51 @@ oc edit deployment/hello1
 ```
 
 
+```
 
+watch oc get co/kube-apiserver
+
+
+oc get apiserver/cluster -o yaml
+
+...output omitted...
+spec:
+  servingCerts:
+  namedCertificates:
+  - names:
+    - <API-URL>
+    servingCertificate:
+      name: <SECRET-NAME>
+
+oc extract secret/<SECRET-NAME> -n openshift-config --confirm
+openssl x509 -in tls.crt -noout -dates
+
+oc set data secret <SECRET-NAME> --from-file tls.crt=<PATH-TO-NEW-CERTIFICATE> --from-file tls.key=<PATH-TO-KEY> -n openshift-config
+
+oc get ingresscontroller/default -n openshift-ingress-operator -o jsonpath='{.spec.defaultCertificate.name}{"\n"}'
+
+oc extract secret/<SECRET-NAME> -n openshift-ingress --confirm
+ openssl x509 -in tls.crt -noout -dates
+ 
+ oc set data secret <SECRET-NAME> --from-file tls.crt=<PATH-TO-NEW-CERTIFICATE> --from-file tls.key=<PATH-TO-KEY> -n openshift-config
+ 
+  curl -k -v https://oauth-openshift.apps.ocp4.example.com 2>&1 | grep -w date
+  
+  oc get proxy/cluster -o jsonpath='{.spec.trustedCA.name}{"\n"}'
+  
+   oc set data configmap <CONFIGMAP-NAME> --from-file ca-bundle.crt=<PATH-TO-NEW-CERTIFICATE> -n openshift-config
+
+openssl x509 -in <PATH-TO-CERTIFICATE> -noout -dates
+
+
+oc get secret <SECRET-NAME> -n openshift-config -o jsonpath='{.data.*}' | base64 -di | openssl x509 -noout -serial
+
+openssl x509 -in <PATH-TO-CERTIFICATE> -noout -serial
+
+oc get events --sort-by='.lastTimestamp' -n openshift-kube-apiserver
+
+oc get pods -n openshift-ingress
+
+
+```
 
