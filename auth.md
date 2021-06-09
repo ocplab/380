@@ -109,6 +109,65 @@ lab auth-ldap finish
 
 ```
 
+```
+lab auth-ldapsync start
+oc login -u admin -p redhat
 
+cd ~/DO380/labs/auth-ldapsync/
+
+wget http://idm.ocp4.example.com/ipa/config/ca.crt
+vi ldap-sync.yml
+
+kind: LDAPSyncConfig
+apiVersion: v1
+url: ldaps://idm.ocp4.example.com
+bindDN: uid=admin,cn=users,cn=accounts,dc=ocp4,dc=example,dc=com
+bindPassword: Redhat123@!
+insecure: false
+ca: ca.crt
+rfc2307:
+
+oc adm groups sync --sync-config ldap-sync.yml
+oc new-project auth-ldapsync
+ oc create -f rbac.yml
+ 
+ vi cronjob.yml
+ 
+ apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: group-sync
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: Never
+          containers:
+          - name: hello
+            image: registry.redhat.io/openshift4/ose-cli:v4.5
+            command:
+            - /bin/sh
+            - -c
+            - oc adm groups sync --sync-config /etc/config/cron-ldap-sync.yml --confirm
+            volumeMounts:
+              - mountPath: "/etc/config"
+                name: "ldap-sync-volume"
+              - mountPath: "/etc/secrets"
+                name: "ldap-bind-password"
+          volumes:
+            - name: "ldap-sync-volume"
+              configMap:
+                name: ldap-config
+            - name: "ldap-bind-password"
+              secret:
+                secretName: ldap-secret
+          serviceAccountName: ldap-group-syncer
+          serviceAccount: ldap-group-syncer
+
+
+
+```
 
 
