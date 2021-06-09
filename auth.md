@@ -17,19 +17,19 @@ spec:
  type: LDAP
  ldap:
  attributes:
- id:
- - dn
- email:
- - mail
- name:
- - cn
- preferredUsername:
- - uid
+   id:
+   - dn
+   email:
+   - mail
+   name:
+   - cn
+   preferredUsername:
+   - uid
  bindDN: "uid=admin,cn=users,cn=accounts,dc=ocp4,dc=example,dc=com"
  bindPassword:
- name: ldap-secret
+   name: ldap-secret
  ca:
- name: ca-config-map
+   name: ca-config-map
  insecure: false
  url: "ldaps://idm.ocp4.example.com/cn=users,cn=accounts,dc=ocp4,dc=example,dc=com?uid"
 
