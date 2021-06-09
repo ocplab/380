@@ -9,29 +9,29 @@ oc create configmap ca-config-map --from-file=ca.crt=<(curl http://idm.ocp-${GUI
 apiVersion: config.openshift.io/v1
 kind: OAuth
 metadata:
- name: cluster
+  name: cluster
 spec:
- identityProviders:
- - name: ldapidp
- mappingMethod: claim
- type: LDAP
- ldap:
- attributes:
-   id:
-   - dn
-   email:
-   - mail
-   name:
-   - cn
-   preferredUsername:
-   - uid
- bindDN: "uid=admin,cn=users,cn=accounts,dc=ocp4,dc=example,dc=com"
- bindPassword:
-   name: ldap-secret
- ca:
-   name: ca-config-map
- insecure: false
- url: "ldaps://idm.ocp4.example.com/cn=users,cn=accounts,dc=ocp4,dc=example,dc=com?uid"
+  identityProviders:
+  - name: ldapidp
+  mappingMethod: claim
+  type: LDAP
+  ldap:
+  attributes:
+    id:
+    - dn
+    email:
+    - mail
+    name:
+    - cn
+    preferredUsername:
+    - uid
+  bindDN: "uid=admin,cn=users,cn=accounts,dc=ocp4,dc=example,dc=com"
+  bindPassword:
+    name: ldap-secret
+  ca:
+    name: ca-config-map
+  insecure: false
+  url: "ldaps://idm.ocp4.example.com/cn=users,cn=accounts,dc=ocp4,dc=example,dc=com?uid"
 
 
 ```
