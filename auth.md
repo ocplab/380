@@ -34,4 +34,17 @@ spec:
   url: "ldaps://idm.ocp4.example.com/cn=users,cn=accounts,dc=ocp4,dc=example,dc=com?uid"
 
 
+oc apply -f tmp/ldap-cr.yml
+oc login -u admin -p ${LDAP_ADMIN_PASSWORD}
+oc whoami
+oc get pods -n openshift-authentication
+oc logs deployment.apps/oauth-openshift
+
+oc get user
+oc get identity
+
+oc adm policy add-cluster-role-to-user cluster-admin admin
+
+
+
 ```
