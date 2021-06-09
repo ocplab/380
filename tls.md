@@ -105,5 +105,51 @@ oc whoami --show-console
 ```
 
 
+```
+ lab certificates-app-trust start
+ 
+ oc login -u admin -p redhat https://api.ocp4.example.com:6443
+ 
+ oc get proxy/cluster -o yaml
+ 
+ oc get configmap combined-certs -n openshift-config -o jsonpath='{.data.*}' | grep Classroom
+ 
+ oc new-project certificates-app-trust
+  oc new-app --name hello1 --docker-image quay.io/redhattraining/hello-world-nginx:v1.0
+  
+  
+   oc create route edge --service hello1 --hostname hello1-trust.apps.ocp4.example.com
+   
+   
+   oc new-app --name hello2 --docker-image quay.io/redhattraining/hello-world-nginx:v1.0
+   
+   oc create route edge --service hello2 --hostname hello2-trust.apps.ocp4.example.com
+   
+ oc get route
+ 
+ curl https://hello1-trust.apps.ocp4.example.com
+ 
+ curl https://hello2-trust.apps.ocp4.example.com
+oc get pods -l deployment=hello1
+
+
+ oc rsh hello1-766cfb954c-hghz8
+ 
+  curl https://hello2-trust.apps.ocp4.example.com
+  
+  exit
+  
+ curl https://hello2-trust.apps.ocp4.example.com
+ 
+ oc label configmap ca-certs config.openshift.io/inject-trusted-cabundle=true
+ 
+ oc get configmap ca-certs -o yaml | head -n6
+ 
+ oc set volume deployment/hello1 -t configmap --name trusted-ca --add --read-only=true --mount-path /etc/pki/ca-trust/extracted/pem --configmap-name ca-certs
+
+
+```
+
+
 
 
