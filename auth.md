@@ -167,7 +167,27 @@ spec:
           serviceAccount: ldap-group-syncer
 
 
+oc create configmap ldap-config --from-file cron-ldap-sync.yml=cron-ldap-sync.yml,ca.crt=ca.crt
 
+ oc create secret generic ldap-secret --from-literal bindPassword='Redhat123@!'
+ 
+ oc create -f cronjob.yml
+watch oc get cronjobs,jobs,pods 
+
+ oc get group openshift-admins
+
+cd
+oc policy who-can get oauth
+oc adm policy add-cluster-role-to-group cluster-admin openshift-admins
+
+ oc policy who-can get oauth
+ 
+ oc adm policy remove-cluster-role-from-group cluster-admin openshift-admins
+ 
+  oc delete project auth-ldapsync
+lab auth-ldapsync finish
+ 
 ```
+
 
 
