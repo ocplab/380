@@ -79,3 +79,31 @@ oc whoami --show-console
  lab certificates-enterprise-ca finish
 
 ```
+
+
+```
+ oc get proxy/cluster -o jsonpath='{.spec.trustedCA.name}{"\n"}' <CONFIGMAP-NAME>
+ 
+ oc extract configmap <CONFIGMAP-NAME> -n openshift-config --confirm
+ 
+ less ca-bundle.crt
+ 
+ oc set data configmap <CONFIGMAP-NAME> --from-file ca-bundle.crt=<PATH-TO-NEW-CERTIFICATE> -n openshift-config
+ 
+ oc create configmap <CONFIGMAP-NAME>
+ 
+  oc label configmap <CONFIGMAP-NAME> config.openshift.io/inject-trusted-cabundle=true
+  
+  
+   oc set volume dc/<DC-NAME> -t configmap --name trusted-ca --add --read-only=true --mount-path /etc/pki/ca-trust/extracted/pem --configmap-name <CONFIGMAP-NAME>
+   
+   oc rsh hello-3-65qs7
+   curl https://hello.apps.ocp4.example.com
+
+ 
+
+```
+
+
+
+
