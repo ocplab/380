@@ -148,6 +148,22 @@ oc get pods -l deployment=hello1
  oc set volume deployment/hello1 -t configmap --name trusted-ca --add --read-only=true --mount-path /etc/pki/ca-trust/extracted/pem --configmap-name ca-certs
 
 
+oc edit deployment/hello1
+
+...output omitted...
+  volumes:
+  - configMap:
+    defaultMode: 420
+    items:
+    - key: ca-bundle.crt
+      path: tls-ca-bundle.pem
+    name: ca-certs
+  name: trusted-ca
+  
+  
+  watch oc get pods -l deployment=hello1
+
+
 ```
 
 
